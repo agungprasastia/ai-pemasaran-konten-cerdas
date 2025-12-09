@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Generator Konten Pemasaran</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        h1 {
+            text-align: center;
+            color: #1a73e8;
+            margin-top: 0;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box; 
+            font-size: 1em;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        button {
+            background-color: #1a73e8;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #1558b0;
+        }
+        #loading {
+            display: none;
+            text-align: center;
+            font-weight: bold;
+            color: #555;
+            margin: 20px 0;
+        }
+        
+        /* CSS Riwayat sudah dihapus dari sini */
+
+        h3 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+
+        #result {
+            margin-top: 10px;
+            background-color: #fdfdfd;
+            border-radius: 6px;
+            padding: 20px;
+            border: 1px solid #eee;
+            white-space: pre-wrap; 
+            font-family: "Courier New", Courier, monospace;
+            line-height: 1.6;
+        }
+        
+        /* Link ke Riwayat */
+        .history-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 1.1em;
+        }
+        .history-link a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .history-link a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Generator Konten Pemasaran Cerdas</h1>
+        
+        <form id="content-form">
+            <div>
+                <label for="produk">Produk/Layanan/Topik:</label>
+                <input type="text" id="produk" value="Sepatu lari 'AeroRun Lite'">
+            </div>
+            
+            <div>
+                <label for="platform">Platform & Jenis Konten:</label>
+                <select id="platform">
+                    <option value="3 Opsi Caption Instagram">3 Opsi Caption Instagram</option>
+                    <option value="Artikel Blog 500 kata">Artikel Blog 500 kata</option>
+                    <option value="Judul Email Newsletter">Judul Email Newsletter</option>
+                    <option value="Naskah Video TikTok 30 detik">Naskah Video TikTok 30 detik</option>
+                    <option value="Iklan Facebook">Iklan Facebook</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="tujuan">Tujuan Utama Konten:</label>
+                <input type="text" id="tujuan" value="Meningkatkan penjualan produk baru">
+            </div>
+
+            <div>
+                <label for="audiens">Target Audiens:</label>
+                <textarea id="audiens">Pelari pemula (pria/wanita, 20-30 thn), baru mulai hobi lari, mencari sepatu yang nyaman dan terjangkau.</textarea>
+            </div>
+
+            <div>
+                <label for="usp">Keunggulan Utama (USP):</label>
+                <textarea id="usp">Sangat ringan, bantalan empuk (teknologi 'CloudFoam'), harga di bawah 500rb.</textarea>
+            </div>
+
+            <div>
+                <label for="nada_suara">Gaya Bahasa:</label>
+                <select id="nada_suara">
+                    <option value="Energik, memotivasi, dan ramah">Energik & Ramah</option>
+                    <option value="Profesional dan Berwibawa">Profesional & Berwibawa</option>
+                    <option value="Lucu dan Jenaka">Lucu & Jenaka</option>
+                    <option value="Mendesak dan Promosional">Mendesak & Promosional</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="poin_kunci">Poin Kunci (Wajib Ada):</label>
+                <input type="text" id="poin_kunci" value="Teknologi 'CloudFoam', harga terjangkau">
+            </div>
+
+            <div>
+                <label for="cta">Call to Action (CTA):</label>
+                <input type="text" id="cta" value="Klik link di bio!">
+            </div>
+
+            <button type="submit">✨ Buat Konten Sekarang!</button>
+        </form>
+
+        <div id="loading">Membuat konten... Mohon tunggu...</div>
+        
+        <div class="history-link">
+            <a href="/riwayat">Lihat Riwayat Lengkap &rarr;</a>
+        </div>
+
+        <h3>Hasil Terbaru</h3>
+        <div id="result">
+            Hasil generat akan muncul di sini...
+        </div>
+
+        </div>
+
+    <script>
+        // 1. Tangkap elemen form dan hasil
+        const form = document.getElementById('content-form');
+        const resultDiv = document.getElementById('result');
+        const loadingDiv = document.getElementById('loading');
+        
+        // Elemen & fungsi riwayat sudah dihapus dari sini
+
+        // 2. Tambahkan 'event listener' saat form di-submit
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault(); 
+
+            loadingDiv.style.display = 'block';
+            resultDiv.innerText = 'Sedang membuat...';
+
+            const data = {
+                tujuan: document.getElementById('tujuan').value,
+                audiens: document.getElementById('audiens').value,
+                produk: document.getElementById('produk').value,
+                usp: document.getElementById('usp').value,
+                platform: document.getElementById('platform').value,
+                nada_suara: document.getElementById('nada_suara').value,
+                poin_kunci: document.getElementById('poin_kunci').value,
+                cta: document.getElementById('cta').value
+            };
+
+            try {
+                // Perhatikan: URL sekarang relatif, bukan http://127...
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Terjadi kesalahan di server');
+                }
+
+                const newEntryData = await response.json();
+                
+                // Tampilkan di "Hasil Terbaru"
+                resultDiv.innerText = newEntryData.output;
+
+                // Bagian untuk menambah ke riwayat di halaman ini sudah dihapus
+
+            } catch (error) {
+                resultDiv.innerText = 'Error: ' + error.message;
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        });
+
+        // Fungsi loadHistory() sudah dihapus dari sini
+    </script>
+
+</body>
+</html>
