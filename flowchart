@@ -1,0 +1,48 @@
+graph TD
+    %% Node Definitions
+    Start((Mulai))
+    UserOpen[User buka / index.html]
+    UserInput[/User isi Form & Klik 'Buat Konten'/]
+    FESend[Frontend kirim POST /generate]
+    BEProcess[Flask terima data & bentuk Prompt]
+    
+    subgraph "External API"
+        Gemini[Panggil Gemini API]
+        GeminiResp[Gemini kembalikan Text]
+    end
+    
+    subgraph "Database (JSON)"
+        SaveDB[(Simpan ke history_db.json)]
+        ReadDB[(Baca history_db.json)]
+    end
+
+    BEResp[Flask return JSON result]
+    FEDisplay[Frontend tampilkan di #result]
+    
+    %% Decision/Navigation
+    NavCheck{User Navigasi?}
+    
+    NavHistory[User buka /riwayat]
+    FEHistoryReq[Frontend GET /history]
+    BEHistoryResp[Flask return List History]
+    FEDisplayHist[Tampilkan List History]
+
+    %% Connections
+    Start --> UserOpen
+    UserOpen --> UserInput
+    UserInput --> FESend
+    FESend --> BEProcess
+    BEProcess --> Gemini
+    Gemini --> GeminiResp
+    GeminiResp --> SaveDB
+    SaveDB --> BEResp
+    BEResp --> FEDisplay
+    
+    FEDisplay --> NavCheck
+    NavCheck -- "Lihat Riwayat" --> NavHistory
+    NavCheck -- "Selesai" --> End((Selesai))
+    
+    NavHistory --> FEHistoryReq
+    FEHistoryReq --> ReadDB
+    ReadDB --> BEHistoryResp
+    BEHistoryResp --> FEDisplayHist
